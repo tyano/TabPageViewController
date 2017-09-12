@@ -75,7 +75,27 @@ open class TabPageViewController: UIPageViewController {
 
 // MARK: - Public Interface
 
+public protocol TabPageViewControllerPreloadable {
+    func preloadData()
+}
+
+
 public extension TabPageViewController {
+    fileprivate func preloadTabData(_ controller: UIViewController) {
+        if let target = controller as? TabPageViewControllerPreloadable {
+            target.preloadData()
+        }
+    }
+    
+    fileprivate func preloadPrevNextTabData(currentViewController: UIViewController) {
+        if let prevController = self.nextViewController(currentViewController, isAfter: false) {
+            preloadTabData(prevController)
+        }
+        
+        if let nextController = self.nextViewController(currentViewController, isAfter: true) {
+            preloadTabData(nextController)
+        }
+    }
 
     public func displayControllerWithIndex(_ index: Int, direction: UIPageViewControllerNavigationDirection, animated: Bool) {
 
@@ -86,6 +106,10 @@ public extension TabPageViewController {
         let completion: ((Bool) -> Void) = { [weak self] _ in
             self?.shouldScrollCurrentBar = true
             self?.beforeIndex = index
+            
+            if (self?.option.preloadNeighbors ?? false) {
+                self?.preloadPrevNextTabData(currentViewController: nextViewControllers[0])
+            }
         }
 
         setViewControllers(
