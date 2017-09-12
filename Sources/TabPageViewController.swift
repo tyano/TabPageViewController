@@ -87,7 +87,7 @@ public extension TabPageViewController {
         }
     }
     
-    fileprivate func preloadPrevNextTabData(currentViewController: UIViewController) {
+    fileprivate func preloadNeiboringTabData(currentViewController: UIViewController) {
         if let prevController = self.nextViewController(currentViewController, isAfter: false) {
             preloadTabData(prevController)
         }
@@ -101,19 +101,19 @@ public extension TabPageViewController {
 
         beforeIndex = index
         shouldScrollCurrentBar = false
-        let nextViewControllers: [UIViewController] = [tabItems[index].viewController]
-
+        
+        let targetViewController = tabItems[index].viewController
         let completion: ((Bool) -> Void) = { [weak self] _ in
             self?.shouldScrollCurrentBar = true
             self?.beforeIndex = index
             
             if (self?.option.preloadNeighbors ?? false) {
-                self?.preloadPrevNextTabData(currentViewController: nextViewControllers[0])
+                self?.preloadNeiboringTabData(currentViewController: targetViewController)
             }
         }
 
         setViewControllers(
-            nextViewControllers,
+            [targetViewController],
             direction: direction,
             animated: animated,
             completion: completion)
@@ -132,11 +132,18 @@ extension TabPageViewController {
         dataSource = self
         delegate = self
         automaticallyAdjustsScrollViewInsets = false
+        
+        let targetViewController = tabItems[beforeIndex].viewController
+        let completion: ((Bool) -> Void) = { [weak self] _ in
+            if (self?.option.preloadNeighbors ?? false) {
+                self?.preloadNeiboringTabData(currentViewController: targetViewController)
+            }
+        }
 
-        setViewControllers([tabItems[beforeIndex].viewController],
+        setViewControllers([targetViewController],
                            direction: .forward,
                            animated: false,
-                           completion: nil)
+                           completion: completion)
     }
 
     fileprivate func setupScrollView() {
