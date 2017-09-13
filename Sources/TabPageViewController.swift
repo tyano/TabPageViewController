@@ -72,20 +72,51 @@ open class TabPageViewController: UIPageViewController {
     }
 }
 
+// MARK: - Preloading
+
+public protocol TabPageViewControllerPreloadable {
+    func preloadData()
+    func isPreloaded() -> Bool
+}
+
+extension TabPageViewController {
+    fileprivate func preloadTabData(_ controller: UIViewController) {
+        if let target = controller as? TabPageViewControllerPreloadable {
+            if !target.isPreloaded() {
+                target.preloadData()
+            }
+        }
+    }
+    
+    fileprivate func preloadNeiboringTabData(currentViewController: UIViewController) {
+        if self.option.preloadNeighbors {
+            DispatchQueue.global(qos: .background).async {
+                if let prevController = self.nextViewController(currentViewController, isAfter: false) {
+                    self.preloadTabData(prevController)
+                }
+            }
+            DispatchQueue.global(qos: .background).async {
+                if let nextController = self.nextViewController(currentViewController, isAfter: true) {
+                    self.preloadTabData(nextController)
+                }
+            }
+        }
+    }
+}
 
 // MARK: - Public Interface
 
 public extension TabPageViewController {
-
     public func displayControllerWithIndex(_ index: Int, direction: UIPageViewControllerNavigationDirection, animated: Bool) {
 
         beforeIndex = index
         shouldScrollCurrentBar = false
+        
         let nextViewControllers: [UIViewController] = [tabItems[index].viewController]
-
         let completion: ((Bool) -> Void) = { [weak self] _ in
             self?.shouldScrollCurrentBar = true
             self?.beforeIndex = index
+            self?.preloadNeiboringTabData(currentViewController: nextViewControllers[0])
         }
 
         setViewControllers(
@@ -108,11 +139,15 @@ extension TabPageViewController {
         dataSource = self
         delegate = self
         automaticallyAdjustsScrollViewInsets = false
-
-        setViewControllers([tabItems[beforeIndex].viewController],
+        
+        let targetViewController = tabItems[beforeIndex].viewController
+        let completion: ((Bool) -> Void) = { [weak self] _ in
+            self?.preloadNeiboringTabData(currentViewController: targetViewController)
+        }
+        setViewControllers([targetViewController],
                            direction: .forward,
                            animated: false,
-                           completion: nil)
+                           completion: completion)
     }
 
     fileprivate func setupScrollView() {
@@ -343,6 +378,11 @@ extension TabPageViewController: UIPageViewControllerDelegate {
         if let currentIndex = currentIndex , currentIndex < tabItemsCount {
             tabView.updateCurrentIndex(currentIndex, shouldScroll: false)
             beforeIndex = currentIndex
+        }
+
+        if completed {
+            let targetViewController = tabItems[beforeIndex].viewController
+            preloadNeiboringTabData(currentViewController: targetViewController)
         }
 
         tabView.updateCollectionViewUserInteractionEnabled(true)
