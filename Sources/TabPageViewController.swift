@@ -218,6 +218,18 @@ extension TabPageViewController {
         }
 
         tabBarTopConstraint = top
+        
+        
+        // Make corners rounded if option.cornerRadius is set.
+        if let radius = option.cornerRadius {
+            let maskPath = UIBezierPath(roundedRect: tabView.bounds,
+                                        byRoundingCorners: [.topLeft, .topRight],
+                                        cornerRadii: CGSize(width: radius, height: radius))
+            let maskLayer = CAShapeLayer()
+            maskLayer.frame = tabView.bounds
+            maskLayer.path = maskPath.cgPath
+            tabView.layer.mask = maskLayer
+        }
 
         return tabView
     }

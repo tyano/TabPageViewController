@@ -32,6 +32,7 @@ public struct TabPageOption {
     public var isTranslucent: Bool = true
     public var hidesTopViewOnSwipeType: HidesTopContentsOnSwipeType = .none
     public var preloadNeighbors: Bool = false
+    public var cornerRadius: CGFloat? = nil
 
     internal var tabBarAlpha: CGFloat {
         return isTranslucent ? 0.95 : 1.0
