@@ -26,6 +26,7 @@ public struct TabPageOption {
     public var tabMargin: CGFloat = 20.0
     public var tabWidth: CGFloat?
     public var currentBarHeight: CGFloat = 2.0
+    public var currentBarColor: UIColor = UIColor(red: 105/255, green: 182/255, blue: 245/255, alpha: 1.0)
     public var tabBackgroundColor: UIColor = .white
     public var currentBackgroundColor: UIColor?
     public var pageBackgoundColor: UIColor = UIColor.white
