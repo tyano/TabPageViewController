@@ -114,7 +114,7 @@ internal class TabView: UIView {
             collectionView.addConstraints([top, left])
         }
 
-        bottomBarViewHeightConstraint.constant = 1.0 / UIScreen.main.scale
+        bottomBarViewHeightConstraint.constant = option.currentBarHeight <= 0.0 ? 0.0 : (1.0 / UIScreen.main.scale)
     }
 
     required internal init?(coder aDecoder: NSCoder) {
