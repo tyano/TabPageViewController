@@ -226,11 +226,28 @@ extension TabPageViewController {
                                         byRoundingCorners: [.topLeft, .topRight],
                                         cornerRadii: CGSize(width: radius, height: radius))
             let maskLayer = CAShapeLayer()
-            maskLayer.frame = tabView.bounds
+            maskLayer.frame = CGRect(x: 0, y: 0, width: tabView.bounds.width, height: tabView.superview!.frame.height)
             maskLayer.path = maskPath.cgPath
             tabView.layer.mask = maskLayer
         }
-
+        
+        if option.showShadow {
+            let layer = tabView.layer
+            layer.masksToBounds = false
+            layer.shadowColor = option.shadowColor.cgColor
+            
+            if let offset = option.shadowOffset {
+                layer.shadowOffset = offset
+            }
+            
+            if let opacity = option.shadowOpacity {
+                layer.shadowOpacity = opacity
+            }
+            
+            if let radius = option.shadowRadius {
+                layer.shadowRadius = CGFloat(radius)
+            }
+        }
         return tabView
     }
 

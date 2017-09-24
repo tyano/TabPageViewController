@@ -33,6 +33,12 @@ public struct TabPageOption {
     public var hidesTopViewOnSwipeType: HidesTopContentsOnSwipeType = .none
     public var preloadNeighbors: Bool = false
     public var cornerRadius: CGFloat? = nil
+    
+    public var showShadow:Bool = false
+    public var shadowOffset:CGSize? = nil
+    public var shadowOpacity:Float? = nil
+    public var shadowColor:UIColor = UIColor.black
+    public var shadowRadius:Float? = nil
 
     internal var tabBarAlpha: CGFloat {
         return isTranslucent ? 0.95 : 1.0
