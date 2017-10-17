@@ -33,17 +33,30 @@ internal class TabView: UIView {
     fileprivate var currentBarViewLeftConstraint: NSLayoutConstraint?
 
     @IBOutlet var contentView: UIView!
+    
+    @IBOutlet var topMarginView: UIView!
+    @IBOutlet var topMarginViewHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet fileprivate weak var collectionView: UICollectionView!
     @IBOutlet fileprivate weak var currentBarView: UIView!
     @IBOutlet fileprivate weak var currentBarViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var currentBarViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var bottomBarViewHeightConstraint: NSLayoutConstraint!
-
+    
     init(isInfinity: Bool, option: TabPageOption) {
        super.init(frame: CGRect.zero)
         self.option = option
         self.isInfinity = isInfinity
         Bundle(for: TabView.self).loadNibNamed("TabView", owner: self, options: nil)
+        
+        if option.tabTopMarginViewHeight <= 0 {
+            topMarginViewHeightConstraint.constant = 0.0
+            topMarginView.isHidden = true
+        } else {
+            topMarginViewHeightConstraint.constant = option.tabTopMarginViewHeight
+        }
+        topMarginView.backgroundColor = option.tabTopMarginViewBackgroundColor
+        
         addSubview(contentView)
         contentView.backgroundColor = option.tabBackgroundColor.withAlphaComponent(option.tabBarAlpha)
 

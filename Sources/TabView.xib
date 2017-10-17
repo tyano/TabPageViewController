@@ -17,6 +17,8 @@
                 <outlet property="currentBarView" destination="pCA-AJ-Zrg" id="g8t-Py-ZPA"/>
                 <outlet property="currentBarViewHeightConstraint" destination="M76-sL-SLw" id="cj7-Ju-pz2"/>
                 <outlet property="currentBarViewWidthConstraint" destination="TzL-4E-b4p" id="RRO-7B-4Qd"/>
+                <outlet property="topMarginView" destination="xp1-hH-sRh" id="SoX-Jy-cqt"/>
+                <outlet property="topMarginViewHeightConstraint" destination="Tbn-Fm-vxL" id="g3j-OR-bzn"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
