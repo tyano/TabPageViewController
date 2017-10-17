@@ -35,7 +35,7 @@ internal class TabView: UIView {
     @IBOutlet var contentView: UIView!
     
     @IBOutlet var topMarginView: UIView!
-    @IBOutlet var topMarginViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate var topMarginViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet fileprivate weak var collectionView: UICollectionView!
     @IBOutlet fileprivate weak var currentBarView: UIView!
@@ -55,7 +55,6 @@ internal class TabView: UIView {
         } else {
             topMarginViewHeightConstraint.constant = option.tabTopMarginViewHeight
         }
-        topMarginView.backgroundColor = option.tabTopMarginViewBackgroundColor
         
         addSubview(contentView)
         contentView.backgroundColor = option.tabBackgroundColor.withAlphaComponent(option.tabBarAlpha)

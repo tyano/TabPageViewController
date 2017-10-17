@@ -28,7 +28,6 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xp1-hH-sRh">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                    <color key="backgroundColor" red="0.60392159219999997" green="0.1294117719" blue="0.24705882370000001" alpha="1" colorSpace="deviceRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="Tbn-Fm-vxL"/>
                     </constraints>

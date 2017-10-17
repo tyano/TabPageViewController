@@ -31,6 +31,10 @@ open class TabPageViewController: UIPageViewController {
     fileprivate var statusView: UIView?
     fileprivate var statusViewHeightConstraint: NSLayoutConstraint?
     fileprivate var tabBarTopConstraint: NSLayoutConstraint?
+    
+    public var tabTopMarginView: UIView {
+        return tabView.topMarginView
+    }
 
     open static func create() -> TabPageViewController {
         let sb = UIStoryboard(name: "TabPageViewController", bundle: Bundle(for: TabPageViewController.self))
