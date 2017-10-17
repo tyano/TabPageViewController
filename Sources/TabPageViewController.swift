@@ -32,6 +32,8 @@ open class TabPageViewController: UIPageViewController {
     fileprivate var statusViewHeightConstraint: NSLayoutConstraint?
     fileprivate var tabBarTopConstraint: NSLayoutConstraint?
     
+    public var tabPageViewControllerDelegate: TabPageViewControllerDelegate? = nil
+    
     public var tabTopMarginView: UIView {
         return tabView.topMarginView
     }
@@ -47,6 +49,10 @@ open class TabPageViewController: UIPageViewController {
         setupPageViewController()
         setupScrollView()
         updateNavigationBar()
+        
+        if let delegate = tabPageViewControllerDelegate {
+            delegate.tabPageViewDidLoad()
+        }
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -74,6 +80,12 @@ open class TabPageViewController: UIPageViewController {
         navigationController?.navigationBar.shadowImage = nil
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
     }
+}
+
+// MARK: - delegate
+
+public protocol TabPageViewControllerDelegate {
+    func tabPageViewDidLoad()
 }
 
 // MARK: - Preloading
