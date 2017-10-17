@@ -22,6 +22,7 @@ public struct TabPageOption {
     public var fontSize = UIFont.systemFontSize
     public var currentColor = UIColor(red: 105/255, green: 182/255, blue: 245/255, alpha: 1.0)
     public var defaultColor = UIColor(red: 153/255, green: 153/255, blue: 153/255, alpha: 1.0)
+    public var tabTopMarginViewHeight: CGFloat = 60.0
     public var tabHeight: CGFloat = 32.0
     public var tabMargin: CGFloat = 20.0
     public var tabWidth: CGFloat?
@@ -40,6 +41,10 @@ public struct TabPageOption {
     public var shadowOpacity:Float? = nil
     public var shadowColor:UIColor = UIColor.black
     public var shadowRadius:Float? = nil
+    
+    public var totalTabHeight: CGFloat {
+        return tabTopMarginViewHeight + tabHeight
+    }
 
     internal var tabBarAlpha: CGFloat {
         return isTranslucent ? 0.95 : 1.0

@@ -180,7 +180,7 @@ extension TabPageViewController {
                                         toItem: nil,
                                         attribute: .height,
                                         multiplier: 1.0,
-                                        constant: option.tabHeight)
+                                        constant: option.totalTabHeight)
         tabView.addConstraint(height)
         view.addSubview(tabView)
 
@@ -344,7 +344,7 @@ extension TabPageViewController {
     private func updateTabBarOrigin(hidden: Bool) {
         guard let tabBarTopConstraint = tabBarTopConstraint else { return }
 
-        tabBarTopConstraint.constant = hidden ? -(20.0 + option.tabHeight) : 0.0
+        tabBarTopConstraint.constant = hidden ? -(20.0 + option.totalTabHeight) : 0.0
         UIView.animate(withDuration: TimeInterval(UINavigationControllerHideShowBarDuration)) {
             self.view.layoutIfNeeded()
         }
